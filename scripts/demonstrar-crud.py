@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
 """Execute na VM. Faz SELECT após cada operação e pausa para gravar evidências."""
 import json, os, subprocess, urllib.request, uuid
-base=os.getenv('BASE_URL','http://localhost:8080')
+base=os.environ['BASE_URL']
+for key in ['PGHOST','PGUSER','PGDATABASE','PGPASSWORD']:
+ if not os.getenv(key): raise SystemExit('Configure '+key+' conforme o README antes de demonstrar o CRUD.')
 def call(method,path,data=None):
  req=urllib.request.Request(base+'/api'+path,data=json.dumps(data).encode() if data else None,headers={'Content-Type':'application/json'},method=method)
  with urllib.request.urlopen(req) as r:
   raw=r.read(); print(method,path,'HTTP',r.status,raw.decode()); return json.loads(raw) if raw else None
 def evidence():
- if os.getenv('DB_MODE')=='paas':
-  subprocess.run(['psql','-v','ON_ERROR_STOP=1','-c','SELECT * FROM clientes ORDER BY id;','-c','SELECT * FROM pedidos ORDER BY id;'],check=True)
- else:
-  subprocess.run(['bash','scripts/consultar-banco.sh'],check=True)
+ subprocess.run(['psql','-v','ON_ERROR_STOP=1','-f','docs/consultas-evidencia.sql'],check=True)
  input('Evidência exibida. Enter para continuar...')
 email='demo-'+uuid.uuid4().hex[:8]+'@exemplo.com'
 c=call('POST','/clientes',{'nome':'Bruno Demo','email':email});evidence()

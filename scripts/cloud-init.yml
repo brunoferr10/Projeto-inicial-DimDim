@@ -8,6 +8,8 @@ packages:
   - git
   - curl
   - unzip
+  - python3
+  - postgresql-client
 runcmd:
   - systemctl enable --now docker
   - usermod -aG docker azureuser

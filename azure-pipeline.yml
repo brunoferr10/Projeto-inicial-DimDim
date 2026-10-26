@@ -21,8 +21,8 @@ steps:
     out="$(Build.ArtifactStagingDirectory)/drop"
     mkdir -p "$out/target" "$out/scripts"
     cp target/app.jar "$out/target/"
-    cp Dockerfile docker-compose.yml script.sql "$out/"
-    cp scripts/deploy.sh scripts/deploy-appservice.sh "$out/scripts/"
+    cp script.sql "$out/"
+    cp scripts/deploy-appservice.sh "$out/scripts/"
   displayName: Preparar pacote de Release
 - task: PublishBuildArtifacts@1
   inputs:

@@ -24,5 +24,5 @@ az webapp config appsettings set -g "$RG" -n "$APP_NAME" --settings \
  "DB_USER=$DB_ADMIN" "DB_PASSWORD=$DB_PASSWORD" "SERVER_PORT=80" -o none
 az webapp update -g "$RG" -n "$APP_NAME" --https-only true -o none
 az webapp config set -g "$RG" -n "$APP_NAME" --always-on true -o none
-echo "Recursos criados. Antes do deploy, execute script.sql no PostgreSQL conforme GUIA-APPSERVICE.md."
+echo "Recursos criados. Antes do deploy, execute script.sql no PostgreSQL conforme a seção 8 do README."
 echo "https://${APP_NAME}.azurewebsites.net/api/versao"

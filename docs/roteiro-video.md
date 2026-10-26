@@ -67,11 +67,10 @@ Mostre a mensagem atualizada e saúde UP. Substitua SEU_APP pelo nome real.
 
 ## Cena 6 — CRUD completo e evidências no banco PaaS
 
-Na VM, configure as variáveis conforme GUIA-APPSERVICE.md antes de gravar a tela de terminal que poderia expor credenciais. Use PGHOST, PGUSER, PGDATABASE, PGSSLMODE e PGPASSWORD do banco real. Na raiz:
+Na VM, configure as variáveis conforme a seção 8 do README antes de gravar a tela de terminal que poderia expor credenciais. Use PGHOST, PGUSER, PGDATABASE, PGSSLMODE e PGPASSWORD do banco real. Na raiz:
 
 ```bash
 export BASE_URL=https://SEU_APP.azurewebsites.net
-export DB_MODE=paas
 python3 scripts/demonstrar-crud.py
 ```
 
