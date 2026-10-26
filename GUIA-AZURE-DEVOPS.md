@@ -1,4 +1,8 @@
-# Guia de execução — Bruno Ferreira RM 563489
+# Guia de execução — Grupo DimDim
+
+Integrantes: Hebert Lopes do Santos (563192), Nicolas Monteiro Ramiro (562380), Marcus Vinícius Vila Nova da Silva (558771), Gabriel Robertoni Padilha (566293) e Bruno Ferreira (563489).
+
+Para começar, siga INICIE-AQUI.md. O destino recomendado é App Service + PostgreSQL PaaS, descrito em GUIA-APPSERVICE.md. Neste guia, o passo 5 com Docker é apenas uma alternativa: substitua-o pela Release do guia App Service.
 
 ## 1. Preparar o código e a VM
 
