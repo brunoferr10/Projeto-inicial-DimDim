@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: dimdim
+      POSTGRES_USER: dimdim
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Defina DB_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./script.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dimdim -d dimdim"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  app:
+    image: dimdim:${IMAGE_TAG:-local}
+    build: .
+    restart: unless-stopped
+    ports: ["8080:8080"]
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/dimdim
+      DB_USER: dimdim
+      DB_PASSWORD: ${DB_PASSWORD:?Defina DB_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  postgres-data:

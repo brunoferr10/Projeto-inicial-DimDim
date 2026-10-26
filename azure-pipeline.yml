@@ -1,0 +1,30 @@
+trigger:
+  branches:
+    include: [main]
+pr: none
+pool:
+  name: DimDimPool
+steps:
+- checkout: self
+  clean: true
+- bash: mvn -B clean verify
+  displayName: Compilar e executar testes
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFormat: JUnit
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    failTaskOnFailedTests: true
+    failTaskOnMissingResultsFile: true
+- bash: |
+    set -euo pipefail
+    out="$(Build.ArtifactStagingDirectory)/drop"
+    mkdir -p "$out/target" "$out/scripts"
+    cp target/app.jar "$out/target/"
+    cp Dockerfile docker-compose.yml script.sql "$out/"
+    cp scripts/deploy.sh scripts/deploy-appservice.sh "$out/scripts/"
+  displayName: Preparar pacote de Release
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/drop'
+    ArtifactName: drop
